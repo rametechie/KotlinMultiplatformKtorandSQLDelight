@@ -8,4 +8,5 @@ class AndroidDatabaseDriverFactory(private val context: Context) : DatabaseDrive
     override fun createDriver(): SqlDriver {
         return AndroidSqliteDriver(AppDatabase.Schema, context, "launch.db")
     }
+
 }

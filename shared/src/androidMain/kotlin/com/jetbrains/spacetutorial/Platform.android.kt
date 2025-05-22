@@ -1,10 +1,8 @@
 package com.jetbrains.spacetutorial
 
 import android.os.Build
-import io.ktor.util.Platform
 
-class AndroidPlatform : Platform {
-    override val name: String = "Android ${Build.VERSION.SDK_INT}"
+class AndroidPlatform(override val name: String) : Platform {
 }
 
 actual fun getPlatform(): Platform = AndroidPlatform()
