@@ -71,6 +71,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.ui.text.google.fonts)
     debugImplementation(compose.uiTooling)
 }
 
