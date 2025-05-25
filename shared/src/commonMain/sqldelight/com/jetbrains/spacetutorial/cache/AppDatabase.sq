@@ -2,7 +2,7 @@ CREATE TABLE Launch (
 flightNumber INTEGER NOT NULL,
 missionName TEXT NOT NULL,
 details TEXT,
-launchSuccess INTEGER AS Boolean DEFAULT NULL,
+launchSuccess INTEGER,
 launchDateUTC TEXT NOT NULL,
 patchUrlSmall TEXT,
 patchUrlLarge TEXT,
@@ -17,5 +17,5 @@ removeAllLaunches:
 DELETE FROM Launch;
 
 selectAllLaunchesInfo:
-SELECT Launch.*
+SELECT flightNumber, missionName, details, launchSuccess, launchDateUTC, patchUrlSmall, patchUrlLarge, articleUrl
 FROM Launch;

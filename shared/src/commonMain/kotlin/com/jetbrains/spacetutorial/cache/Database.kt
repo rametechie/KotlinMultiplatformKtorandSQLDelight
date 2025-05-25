@@ -20,7 +20,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                     flightNumber =  launch.flightNumber.toLong(),
                     missionName = launch.missionName,
                     details = launch.details,
-                    launchSuccess = launch.launchSuccess ?: false,
+                    launchSuccess = if (launch.launchSuccess == true) 1L else 0L,
                     launchDateUTC = launch.launchDateUTC,
                     patchUrlSmall = launch.links.patch?.small,
                     patchUrlLarge = launch.links.patch?.large,
@@ -34,7 +34,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         flightNumber: Long,
         missionName: String,
         details: String?,
-        launchSuccess: Boolean?,
+        launchSuccess: Long?,
         launchDateUTC: String,
         patchUrlSmall: String?,
         patchUrlLarge: String?,
@@ -45,7 +45,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
             missionName = missionName,
             launchDateUTC = launchDateUTC,
             details = details,
-            launchSuccess = launchSuccess,
+            launchSuccess = launchSuccess?.let { it != 0L },
             links = Links(
                 patch = Patch(
                     small = patchUrlSmall,
