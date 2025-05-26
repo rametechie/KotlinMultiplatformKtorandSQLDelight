@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -9,6 +10,8 @@ plugins {
 }
 
 kotlin {
+    val iosDeploymentTarget = "17.0"
+
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
@@ -26,7 +29,14 @@ kotlin {
             isStatic = true
         }
     }
-    
+
+    // Apply iOS deployment target to all native targets
+    targets.withType<KotlinNativeTarget>().configureEach {
+        binaries.withType<org.jetbrains.kotlin.gradle.plugin.mpp.Framework>().configureEach {
+            freeCompilerArgs += "-Xapple.deployment-target=$iosDeploymentTarget"
+        }
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.coroutines.core)
