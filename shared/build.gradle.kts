@@ -60,6 +60,9 @@ kotlin {
             implementation(libs.kotlin.test)
         }
     }
+    tasks.register("assembleDebugAppleFrameworkForXcode") {
+        dependsOn("linkDebugFrameworkIosArm64")
+    }
 }
 
 android {
