@@ -1,4 +1,4 @@
-multiplatformKtorandSQLDelight
+MultiplatformKtorandSQLDelight
 
 A Kotlin Multiplatform mobile application for iOS and Android that demonstrates modern mobile development using shared business logic and native UIs.
 Overview
