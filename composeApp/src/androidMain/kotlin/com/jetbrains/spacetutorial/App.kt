@@ -27,77 +27,100 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import com.jetbrains.spacetutorial.data.LoginDataSource
+import com.jetbrains.spacetutorial.data.LoginDataValidator
+import com.jetbrains.spacetutorial.data.LoginRepository
+import com.jetbrains.spacetutorial.simplelogin.androidapp.ui.login.LoginScreen
+import com.jetbrains.spacetutorial.simplelogin.androidapp.ui.login.LoginViewModel
 
 @OptIn(
     ExperimentalMaterial3Api::class
 )
 @Composable
 fun App() {
-    val viewModel = koinViewModel<RocketLaunchViewModel>()
-    val state by remember { viewModel.state }
-    val pullToRefreshState = rememberPullToRefreshState()
-    if (pullToRefreshState.isRefreshing) {
-        viewModel.loadLaunches()
-        pullToRefreshState.endRefresh()
-    }
-    AppTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(title = {
-                    Text(
-                        "SpaceX Launches",
-                        style = MaterialTheme.typography.headlineLarge
-                    )
-                })
-            }
-        ) { padding ->
-            Box(
-                modifier = Modifier
-                    .nestedScroll(pullToRefreshState.nestedScrollConnection)
-                    .fillMaxSize()
-                    .padding(padding)
-            ) {
-                if (state.isLoading) {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Text("Loading...", style = MaterialTheme.typography.bodyLarge)
-                    }
-                } else {
-                    LazyColumn {
-                        items(state.launches) { launch: RocketLaunch ->
-                            Column(modifier = Modifier.padding(all = 16.dp)) {
-                                Text(
-                                    text = "${launch.missionName} - ${launch.launchYear}",
-                                    style = MaterialTheme.typography.headlineSmall
-                                )
-                                Spacer(Modifier.height(8.dp))
-                                Text(
-                                    text = if (launch.launchSuccess == true) "Successful" else "Unsuccessful",
-                                    color = if (launch.launchSuccess == true) app_theme_successful else app_theme_unsuccessful
-                                )
-                                Spacer(Modifier.height(8.dp))
-                                val details = launch.details
-                                if (details?.isNotBlank() == true) {
+    var isLoggedIn by remember { mutableStateOf(false) }
+
+    if(isLoggedIn) {
+
+        val viewModel = koinViewModel<RocketLaunchViewModel>()
+        val state by remember { viewModel.state }
+        val pullToRefreshState = rememberPullToRefreshState()
+        if (pullToRefreshState.isRefreshing) {
+            viewModel.loadLaunches()
+            pullToRefreshState.endRefresh()
+        }
+        AppTheme {
+            Scaffold(
+                topBar = {
+                    TopAppBar(title = {
+                        Text(
+                            "SpaceX Launches",
+                            style = MaterialTheme.typography.headlineLarge
+                        )
+                    })
+                }
+            ) { padding ->
+                Box(
+                    modifier = Modifier
+                        .nestedScroll(pullToRefreshState.nestedScrollConnection)
+                        .fillMaxSize()
+                        .padding(padding)
+                ) {
+                    if (state.isLoading) {
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            Text("Loading...", style = MaterialTheme.typography.bodyLarge)
+                        }
+                    } else {
+                        LazyColumn {
+                            items(state.launches) { launch: RocketLaunch ->
+                                Column(modifier = Modifier.padding(all = 16.dp)) {
                                     Text(
-                                        text = details
+                                        text = "${launch.missionName} - ${launch.launchYear}",
+                                        style = MaterialTheme.typography.headlineSmall
                                     )
+                                    Spacer(Modifier.height(8.dp))
+                                    Text(
+                                        text = if (launch.launchSuccess == true) "Successful" else "Unsuccessful",
+                                        color = if (launch.launchSuccess == true) app_theme_successful else app_theme_unsuccessful
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    val details = launch.details
+                                    if (details?.isNotBlank() == true) {
+                                        Text(
+                                            text = details
+                                        )
+                                    }
                                 }
+                                HorizontalDivider()
                             }
-                            HorizontalDivider()
                         }
                     }
-                }
 
-                PullToRefreshContainer(
-                    state = pullToRefreshState,
-                    modifier = Modifier.align(Alignment.TopCenter)
-                )
+                    PullToRefreshContainer(
+                        state = pullToRefreshState,
+                        modifier = Modifier.align(Alignment.TopCenter)
+                    )
+                }
             }
         }
+    } else {
+        val viewModel = LoginViewModel(
+            loginRepository = LoginRepository(
+                dataSource = LoginDataSource()
+            ),
+            dataValidator = LoginDataValidator()
+        )
+        LoginScreen(viewModel = viewModel) { loginResult ->
+            isLoggedIn = true // Switch to SpaceXScreen on successful login
+        }
     }
+
 }
