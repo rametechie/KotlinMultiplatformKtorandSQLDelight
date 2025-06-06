@@ -6,20 +6,8 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXCopyFilesBuildPhase section */
-		0CD16A4E2DE587FB00599513 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
+		0C640FCF2DEC2AF300ECAEEE /* Shared */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = Shared; path = "../shared/build/xcode-frameworks/Debug/iphoneos18.4/Shared.framework/Shared"; sourceTree = "<group>"; };
 		B9DA97B12DC1472C00A4DA20 /* SpaceTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -28,30 +16,17 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				Shared.framework,
 			);
 			target = B9DA97B02DC1472C00A4DA20 /* iosApp */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		0CD16A4F2DE587FB00599513 /* Exceptions for "iosApp" folder in "Embed Frameworks" phase from "iosApp" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			attributesByRelativePath = {
-				Shared.framework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
-			};
-			buildPhase = 0CD16A4E2DE587FB00599513 /* Embed Frameworks */;
-			membershipExceptions = (
-				Shared.framework,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B9DA97B32DC1472C00A4DA20 /* iosApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				B99700CA2DC9B8D800C7335B /* Exceptions for "iosApp" folder in "iosApp" target */,
-				0CD16A4F2DE587FB00599513 /* Exceptions for "iosApp" folder in "Embed Frameworks" phase from "iosApp" target */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -77,6 +52,7 @@
 		0CD16A492DE57FBE00599513 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0C640FCF2DEC2AF300ECAEEE /* Shared */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -110,7 +86,6 @@
 				B9DA97AD2DC1472C00A4DA20 /* Sources */,
 				B9DA97AE2DC1472C00A4DA20 /* Frameworks */,
 				B9DA97AF2DC1472C00A4DA20 /* Resources */,
-				0CD16A4E2DE587FB00599513 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
